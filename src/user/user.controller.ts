@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Patch, UseGuards } from '@nestjs/common';
 import type { User } from '@prisma/client';
-import { ApiBearerAuth, ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags, ApiOperation, ApiResponse, ApiBody } from '@nestjs/swagger';
 import { GetUser } from '../auth/decorator';
 import { JwtGuard } from '../auth/guard';
 import { EditUserDto } from './dto';
@@ -35,6 +35,7 @@ export class UserController {
 
   @Patch()
   @ApiOperation({ summary: 'Update current user profile' })
+  @ApiBody({ type: EditUserDto })  // ← ADD THIS LINE
   @ApiResponse({
     status: 200,
     description: 'User successfully updated',

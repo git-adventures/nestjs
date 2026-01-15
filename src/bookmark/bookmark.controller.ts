@@ -11,7 +11,7 @@ import {
   Post,
   UseGuards,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiTags, ApiOperation, ApiResponse, ApiParam } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags, ApiOperation, ApiResponse, ApiParam, ApiBody } from '@nestjs/swagger';
 import { GetUser } from '../auth/decorator';
 import { JwtGuard } from '../auth/guard';
 import { BookmarkService } from './bookmark.service';
@@ -61,6 +61,7 @@ export class BookmarkController {
 
   @Post()
   @ApiOperation({ summary: 'Create a new bookmark' })
+  @ApiBody({ type: CreateBookmarkDto })  // ← ADD THIS LINE
   @ApiResponse({ status: 201, description: 'Bookmark created successfully' })
   createBookmark(
     @GetUser('id') userId: number,
@@ -72,6 +73,7 @@ export class BookmarkController {
   @Patch(':id')
   @ApiOperation({ summary: 'Update bookmark by ID' })
   @ApiParam({ name: 'id', description: 'Bookmark ID' })
+  @ApiBody({ type: EditBookmarkDto })  // ← ADD THIS LINE
   @ApiResponse({ status: 200, description: 'Bookmark updated successfully' })
   @ApiResponse({ status: 403, description: 'Access to resource denied' })
   editBookmarkById(
